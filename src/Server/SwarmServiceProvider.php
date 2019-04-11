@@ -4,6 +4,7 @@ namespace Swarm\Server;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
+use React\EventLoop\Factory;
 
 class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -27,7 +28,7 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
     public function boot()
     {
         $this->commands([
-            Server\Console\StartWebSocketServer::class,
+            Console\StartWebSocketServer::class,
         ]);
     }
 
