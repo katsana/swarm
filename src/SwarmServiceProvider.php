@@ -2,6 +2,7 @@
 
 namespace Swarm;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Routing\RouteCollection;
 

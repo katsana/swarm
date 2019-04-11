@@ -14,7 +14,7 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register()
     {
-        $this->app->singleton('swarm.event-loop', function (Application $app) {
+        $this->app->singleton('swarm.event-loop', function () {
             return Factory::create();
         });
     }
