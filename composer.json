@@ -1,0 +1,59 @@
+{
+    "name": "katsana/swarm",
+    "description": "WebSocket Communication for Laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "KATSANA Developerr",
+            "email": "developer@katsana.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Marcel Pociot",
+            "email": "marcel@beyondco.de",
+            "homepage": "https://beyondcode.de",
+            "role": "Developer"
+        },
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Swarm\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "ext-json": "*",
+        "cboden/ratchet": "^0.4.1",
+        "clue/buzz-react": "^2.5",
+        "guzzlehttp/psr7": "^1.5",
+        "illuminate/console": "~5.8.0",
+        "illuminate/http": "~5.8.0",
+        "illuminate/routing": "~5.8.0",
+        "illuminate/support": "~5.8.0",
+        "symfony/http-kernel": "~4.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Swarm\\SwarmServiceProvider"
+            ],
+            "aliases": {
+                "Swarm": "Swarm\\Swarm"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}
