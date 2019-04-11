@@ -84,7 +84,7 @@ class Router
      *
      * @return \Ratchet\WebSocket\WsServer|object
      */
-    protected function asController(string $handler)
+    protected function asController(string $action)
     {
         $handler = $this->app->make($action);
 
