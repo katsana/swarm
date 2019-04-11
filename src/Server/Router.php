@@ -2,22 +2,32 @@
 
 namespace Swarm\Server;
 
-use Ratchet\WebSocket\MessageComponentInterface;
 use Ratchet\WebSocket\WsServer;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
+use Illuminate\Contracts\Foundation\Application;
+use Ratchet\WebSocket\MessageComponentInterface;
 
 class Router
 {
     use Concerns\ProvidesRouting;
 
     /**
+     * The app container implementation.
+     *
+     * @var \Illuminate\Contracts\Foundation\Application
+     */
+    protected $app;
+
+    /**
      * Construct router.
      *
+     * @param \Illuminate\Contracts\Foundation\Application $app
      * @param \Symfony\Component\Routing\RouteCollection $routes
      */
-    public function __construct(RouteCollection $routes)
+    public function __construct(Application $app, RouteCollection $routes)
     {
+        $this->app = $app;
         $this->routes = $routes;
     }
 
@@ -64,22 +74,28 @@ class Router
      */
     protected function getRoute(string $method, string $uri, $action): Route
     {
-        $action = \is_subclass_of($action, MessageComponentInterface::class)
-                        ? $this->createWebSocketServer($action)
-                        : \app($action);
-
-        return new Route($uri, ['_controller' => $action], [], [], null, [], [$method]);
+        return new Route($uri,  ['_controller' => $this->asController($action)], [], [], null, [], [$method]);
     }
 
     /**
-     * Create websocket server.
+     * Create websocket server or resolve handler.
      *
      * @param string $action
      *
-     * @return \Ratchet\WebSocket\WsServer
+     * @return \Ratchet\WebSocket\WsServer|object
      */
-    protected function createWebSocketServer(string $action): WsServer
+    protected function asController(string $handler)
     {
-        return new WsServer(\app($action));
+        $handler = $this->app->make($action);
+
+        if (\method_exists($handler, 'withEventLoop')) {
+            $handler->withEventLoop($this->app->make('swarm.event-loop'));
+        }
+
+        if (\is_subclass_of($action, MessageComponentInterface::class)) {
+            return new WsServer($handler);
+        }
+
+        return $handler;
     }
 }

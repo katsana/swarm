@@ -36,7 +36,7 @@ class StartWebSocketServer extends Command
             'server' => ['host' => '0.0.0.0', 'port' => 8085, 'secure' => false],
         ]);
 
-        $eventLoop = Factory::create();
+        $eventLoop = $this->laravel->make('swarm.event-loop');
 
         $router = new Router(
             new UrlMatcher($this->laravel->make('swarm.router')->getRoutes(), new RequestContext())

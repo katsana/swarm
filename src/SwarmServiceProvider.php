@@ -14,8 +14,8 @@ class SwarmServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('swarm.router', function () {
-            return new Server\Router(new RouteCollection());
+        $this->app->singleton('swarm.router', function (Application $app) {
+            return new Server\Router($app, new RouteCollection());
         });
     }
 
@@ -29,9 +29,5 @@ class SwarmServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/swarm.php' => \config_path('config/swarm.php'),
         ], 'config');
-
-        $this->commands([
-            Server\Console\StartWebSocketServer::class,
-        ]);
     }
 }
