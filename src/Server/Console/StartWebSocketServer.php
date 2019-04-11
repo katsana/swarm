@@ -3,9 +3,8 @@
 namespace Swarm\Server\Console;
 
 use Illuminate\Console\Command;
-use Swarm\Server\Connector;
 use Ratchet\Http\Router;
-use React\EventLoop\Factory;
+use Swarm\Server\Connector;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 

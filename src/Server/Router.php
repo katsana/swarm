@@ -2,11 +2,11 @@
 
 namespace Swarm\Server;
 
+use Illuminate\Contracts\Foundation\Application;
+use Ratchet\WebSocket\MessageComponentInterface;
 use Ratchet\WebSocket\WsServer;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
-use Illuminate\Contracts\Foundation\Application;
-use Ratchet\WebSocket\MessageComponentInterface;
 
 class Router
 {
@@ -23,7 +23,7 @@ class Router
      * Construct router.
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
-     * @param \Symfony\Component\Routing\RouteCollection $routes
+     * @param \Symfony\Component\Routing\RouteCollection   $routes
      */
     public function __construct(Application $app, RouteCollection $routes)
     {
@@ -74,7 +74,7 @@ class Router
      */
     protected function getRoute(string $method, string $uri, $action): Route
     {
-        return new Route($uri,  ['_controller' => $this->asController($action)], [], [], null, [], [$method]);
+        return new Route($uri, ['_controller' => $this->asController($action)], [], [], null, [], [$method]);
     }
 
     /**

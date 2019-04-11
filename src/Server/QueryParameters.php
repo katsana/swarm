@@ -16,7 +16,8 @@ class QueryParameters
     /**
      * Create from request interface.
      *
-     * @param  \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\RequestInterface $request
+     *
      * @return static
      */
     public static function create(RequestInterface $request)
@@ -51,7 +52,8 @@ class QueryParameters
     /**
      * Get query parameter by name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return string
      */
     public function get(string $name): string

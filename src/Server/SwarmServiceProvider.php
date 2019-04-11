@@ -2,9 +2,8 @@
 
 namespace Swarm\Server;
 
-use Illuminate\Support\ServiceProvider;
-use Symfony\Component\Routing\RouteCollection;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Support\ServiceProvider;
 
 class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -31,7 +30,6 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
             Server\Console\StartWebSocketServer::class,
         ]);
     }
-
 
     /**
      * Get the services provided by the provider.

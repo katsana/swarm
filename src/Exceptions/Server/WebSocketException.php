@@ -21,3 +21,4 @@ class WebSocketException extends Exception
             ],
         ];
     }
+}
