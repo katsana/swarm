@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \Swarm\Server\Router
  */
-class Swarm extends Facade
+class Router extends Facade
 {
     /**
      * Get the registered name of the component.

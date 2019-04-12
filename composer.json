@@ -27,6 +27,11 @@
             "Swarm\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Swarm\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "php": ">=7.1",
         "ext-json": "*",
@@ -56,7 +61,7 @@
                 "Swarm\\Server\\SwarmServiceProvider"
             ],
             "aliases": {
-                "Swarm": "Swarm\\Swarm"
+                "Swarm": "Swarm\\Router"
             }
         }
     },
