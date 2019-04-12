@@ -82,5 +82,5 @@ abstract class Manager
      *
      * @return \Swarm\Channels\Channel
      */
-    abstract protected function newChannel(string $channelId): Channel;
+    abstract protected function newChannel(string $channelId);
 }
