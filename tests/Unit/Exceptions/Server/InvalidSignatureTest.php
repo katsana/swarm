@@ -3,22 +3,22 @@
 namespace Swarm\Tests\Unit\Exceptions\Server;
 
 use PHPUnit\Framework\TestCase;
-use Swarm\Exceptions\Server\InvalidChannel;
+use Swarm\Exceptions\Server\InvalidSignature;
 
-class InvalidChannelTest extends TestCase
+class InvalidSignatureTest extends TestCase
 {
     /** @test */
     public function it_has_proper_signature()
     {
-        $exception = new InvalidChannel('foo');
+        $exception = new InvalidSignature('foo');
 
         $this->assertInstanceOf('Swarm\Exceptions\Server\WebSocketException', $exception);
 
         $this->assertSame([
             'event' => 'error',
             'data' => [
-                'message' => 'Could not find channel `foo`.',
-                'code' => 4001,
+                'message' => 'Invalid Signature',
+                'code' => 4009,
             ],
         ], $exception->getPayload());
     }
@@ -26,10 +26,10 @@ class InvalidChannelTest extends TestCase
     /** @test */
     public function it_throws_proper_exception()
     {
-        $this->expectException(InvalidChannel::class);
-        $this->expectExceptionMessage('Could not find channel `foo`.');
-        $this->expectExceptionCode(4001);
+        $this->expectException(InvalidSignature::class);
+        $this->expectExceptionMessage('Invalid Signature');
+        $this->expectExceptionCode(4009);
 
-        throw new InvalidChannel('foo');
+        throw new InvalidSignature('foo');
     }
 }
