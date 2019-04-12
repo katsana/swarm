@@ -45,16 +45,19 @@ class Manager
             return;
         }
 
-        $channelId = $connection->channel->id();
-        $channel = $this->channels[$channelId] ?? null;
+        $channelIds = Collection::make($connection->channels)->transform(function ($connection) {
+            return $connection->id()
+        })->each(function ($channelId) {
+            $channel = $this->channels[$channelId] ?? null;
 
-        if (! \is_null($channel)) {
-            $channel->unsubscribe($connection);
+            if (! \is_null($channel)) {
+                $channel->unsubscribe($connection);
 
-            if (\count($channel) === 0) {
-                unset($this->channels[$channelId]);
+                if (\count($channel) === 0) {
+                    unset($this->channels[$channelId]);
+                }
             }
-        }
+        });
     }
 
     /**

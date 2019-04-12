@@ -50,7 +50,7 @@ abstract class Channel implements Countable
      */
     public function subscribe(ConnectionInterface $connection)
     {
-        $connection->channel = $this;
+        $connection->channels[$this->id()] = $this;
 
         $this->subscribers[] = $connection;
 
@@ -66,7 +66,9 @@ abstract class Channel implements Countable
      */
     public function unsubscribe(ConnectionInterface $connection): void
     {
-        unset($this->subscribers[$connection->socketId]);
+        unset(
+            $this->subscribers[$connection->socketId], $connection->channels[$this->id()]
+        );
     }
 
     /**
