@@ -18,7 +18,7 @@ class CheckOrigin implements HttpServerInterface
      *
      * @var \Ratchet\MessageComponentInterface
      */
-    protected $_component;
+    protected $component;
 
     /**
      * List of allowed origins.
@@ -35,7 +35,7 @@ class CheckOrigin implements HttpServerInterface
      */
     public function __construct(MessageComponentInterface $component, array $allowedOrigins = [])
     {
-        $this->_component = $component;
+        $this->component = $component;
 
         $this->allowedOrigins = $allowedOrigins;
     }
@@ -49,7 +49,7 @@ class CheckOrigin implements HttpServerInterface
             $this->verifyOrigin($connection, $request);
         }
 
-        return $this->_component->onOpen($connection, $request);
+        return $this->component->onOpen($connection, $request);
     }
 
     /**
@@ -57,7 +57,7 @@ class CheckOrigin implements HttpServerInterface
      */
     public function onMessage(ConnectionInterface $from, $msg)
     {
-        return $this->_component->onMessage($from, $msg);
+        return $this->component->onMessage($from, $msg);
     }
 
     /**
@@ -65,7 +65,7 @@ class CheckOrigin implements HttpServerInterface
      */
     public function onClose(ConnectionInterface $connection)
     {
-        return $this->_component->onClose($connection);
+        return $this->component->onClose($connection);
     }
 
     /**
@@ -73,7 +73,7 @@ class CheckOrigin implements HttpServerInterface
      */
     public function onError(ConnectionInterface $connection, Exception $e)
     {
-        return $this->_component->onError($connection, $e);
+        return $this->component->onError($connection, $e);
     }
 
     /**
