@@ -4,7 +4,7 @@ namespace Swarm\Channels;
 
 use Ratchet\ConnectionInterface;
 
-class Manager
+abstract class Manager
 {
     /**
      * List of channels.
@@ -26,7 +26,7 @@ class Manager
     public function subscribe(string $channelId, ConnectionInterface $connection): void
     {
         if (! isset($this->channels[$channelId])) {
-            $this->channels[$channelId] = new Channel($channelId);
+            $this->channels[$channelId] = $this->newChannel($channelId);
         }
 
         $this->channels[$channelId]->subscribe($connection);
@@ -74,4 +74,13 @@ class Manager
             $this->channels[$channelId]->broadcast($payload);
         }
     }
+
+    /**
+     * Create a new channel.
+     *
+     * @param  string $channelId
+     *
+     * @return \Swarm\Channels\Channel
+     */
+    abstract protected function newChannel(string $channelId): Channel;
 }
