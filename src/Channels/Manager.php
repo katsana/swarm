@@ -46,7 +46,7 @@ class Manager
         }
 
         $channelIds = Collection::make($connection->channels)->transform(function ($connection) {
-            return $connection->id()
+            return $connection->id();
         })->each(function ($channelId) {
             $channel = $this->channels[$channelId] ?? null;
 
