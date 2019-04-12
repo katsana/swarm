@@ -78,7 +78,7 @@ abstract class Manager
     /**
      * Create a new channel.
      *
-     * @param  string $channelId
+     * @param string $channelId
      *
      * @return \Swarm\Channels\Channel
      */
