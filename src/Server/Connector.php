@@ -9,7 +9,7 @@ use React\EventLoop\LoopInterface;
 use React\Socket\SecureServer;
 use React\Socket\Server;
 use React\Socket\ServerInterface;
-use React\Stream\WritableResourceStream;
+use React\Stream\WritableStreamInterface;
 
 class Connector
 {
@@ -30,21 +30,22 @@ class Connector
     /**
      * The writable stream.
      *
-     * @var \React\Stream\WritableResourceStream
+     * @var \React\Stream\WritableStreamInterface
      */
-    protected $writableStream;
+    protected $writer;
 
     /**
      * Construct a new HTTP Server connector.
      *
-     * @param string                         $hostname
-     * @param \React\EventLoop\LoopInterface $eventLoop
+     * @param string                                $hostname
+     * @param \React\EventLoop\LoopInterface        $eventLoop
+     * @param \React\Stream\WritableStreamInterface $writable
      */
-    public function __construct(string $hostname, LoopInterface $eventLoop)
+    public function __construct(string $hostname, LoopInterface $eventLoop, WritableStreamInterface $writer)
     {
         $this->hostname = $hostname;
         $this->eventLoop = $eventLoop;
-        $this->writableStream = new WritableResourceStream(STDOUT, $eventLoop);
+        $this->writer = $writer;
     }
 
     /**
@@ -84,7 +85,7 @@ class Connector
     {
         $socket = new Server("tls://{$this->hostname}", $this->eventLoop, $options);
 
-        $this->writableStream->write("Server running at https://{$this->hostname}\n");
+        $this->writer->write("Server running at https://{$this->hostname}\n");
 
         return $socket;
     }
@@ -98,7 +99,7 @@ class Connector
     {
         $socket = new SecureServer($this->hostname, $this->eventLoop);
 
-        $this->writableStream->write("Server running at http://{$this->hostname}\n");
+        $this->writer->write("Server running at http://{$this->hostname}\n");
 
         return $socket;
     }

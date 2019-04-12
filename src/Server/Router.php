@@ -89,7 +89,7 @@ class Router
         $handler = $this->app->make($action);
 
         if (\method_exists($handler, 'withEventLoop')) {
-            $handler->withEventLoop($this->app->make('swarm.event-loop'));
+            $handler->withEventLoop($this->app['swarm.event-loop']);
         }
 
         if (\is_subclass_of($action, MessageComponentInterface::class)) {

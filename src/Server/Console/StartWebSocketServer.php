@@ -35,13 +35,15 @@ class StartWebSocketServer extends Command
             'server' => ['host' => '0.0.0.0', 'port' => 8085, 'secure' => false],
         ]);
 
-        $eventLoop = $this->laravel->make('swarm.event-loop');
-
         $router = new Router(
-            new UrlMatcher($this->laravel->make('swarm.router')->getRoutes(), new RequestContext())
+            new UrlMatcher($this->laravel['swarm.router']->getRoutes(), new RequestContext())
         );
 
-        $connector = new Connector("{$config['server']['host']}:{$config['server']['port']}", $eventLoop);
+        $connector = new Connector(
+            "{$config['server']['host']}:{$config['server']['port']}",
+            $this->laravel['swarm.event-loop'],
+            $this->laravel['swarm.stream-writer']
+        );
 
         $server = $connector->handle($router, $config);
 

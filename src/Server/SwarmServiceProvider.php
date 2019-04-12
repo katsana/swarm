@@ -2,9 +2,11 @@
 
 namespace Swarm\Server;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use React\EventLoop\Factory;
+use React\Stream\WritableResourceStream;
 
 class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -17,6 +19,10 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
     {
         $this->app->singleton('swarm.event-loop', function () {
             return Factory::create();
+        });
+
+        $this->app->singleton('swarm.stream-writer', function (Application $app) {
+            return new WritableResourceStream(STDOUT, $app['swarm.event-loop']);
         });
     }
 
@@ -39,6 +45,6 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function provides()
     {
-        return ['swarm.event-loop'];
+        return ['swarm.event-loop', 'swarm.stream-writer'];
     }
 }
