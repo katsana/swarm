@@ -25,8 +25,8 @@ class ChannelTest extends TestCase
         $this->assertSame('foo', $channel->id());
     }
 
-     /** @test */
-    public function it_can_subscribe_connections()
+    /** @test */
+    public function it_can_subscribe_and_unsubscribe_connections()
     {
         $channel = new Channel('foo');
 
@@ -42,5 +42,35 @@ class ChannelTest extends TestCase
         $this->assertEquals(2, count($channel));
         $this->assertSame($channel, $subscriber1->channels['foo']);
         $this->assertSame($channel, $subscriber2->channels['foo']);
+
+        $channel->unsubscribe($subscriber1);
+
+        $this->assertEquals(1, count($channel));
+        $this->assertEmpty($subscriber1->channels);
+        $this->assertSame($channel, $subscriber2->channels['foo']);
+    }
+
+    /** @test */
+    public function it_can_broadcast_to_subscribed_connections()
+    {
+        $payload = [
+            'event' => 'hello',
+            'data' => 'Welcom subscriber',
+        ];
+
+        $channel = new Channel('foo');
+
+        $subscriber1 = m::mock(ConnectionInterface::class);
+        $subscriber2 = m::mock(ConnectionInterface::class);
+
+        $subscriber1->socketId = 'subscriber1';
+        $subscriber2->socketId = 'subscriber2';
+
+        $subscriber1->shouldReceive('send')->once()->with(json_encode($payload))->andReturnNull();
+        $subscriber2->shouldNotReceive('send');
+
+        $channel->subscribe($subscriber1);
+
+        $this->assertNull($channel->broadcast($payload));
     }
 }
