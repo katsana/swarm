@@ -4,7 +4,7 @@ namespace Swarm\Channels;
 
 use Ratchet\ConnectionInterface;
 
-abstract class Manager
+class Manager
 {
     /**
      * List of channels.
@@ -82,5 +82,8 @@ abstract class Manager
      *
      * @return \Swarm\Channels\Channel
      */
-    abstract protected function newChannel(string $channelId);
+    protected function newChannel(string $channelId)
+    {
+        return new Channel($channelId);
+    }
 }

@@ -5,7 +5,7 @@ namespace Swarm\Channels;
 use Countable;
 use Ratchet\ConnectionInterface;
 
-abstract class Channel implements Countable
+class Channel implements Countable
 {
     /**
      * Channel ID.
@@ -52,7 +52,7 @@ abstract class Channel implements Countable
     {
         $connection->channels[$this->id()] = $this;
 
-        $this->subscribers[] = $connection;
+        $this->subscribers[$connection->socketId] = $connection;
 
         return $this;
     }
