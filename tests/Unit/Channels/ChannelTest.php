@@ -3,9 +3,9 @@
 namespace Swarm\Tests\Unit\Channels;
 
 use Mockery as m;
-use Swarm\Channels\Channel;
 use PHPUnit\Framework\TestCase;
 use Ratchet\ConnectionInterface;
+use Swarm\Channels\Channel;
 
 class ChannelTest extends TestCase
 {

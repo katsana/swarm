@@ -1,11 +1,10 @@
 <?php
 
-
 use Mockery as m;
-use Swarm\Channels\Channel;
-use Swarm\Channels\Manager;
 use PHPUnit\Framework\TestCase;
 use Ratchet\ConnectionInterface;
+use Swarm\Channels\Channel;
+use Swarm\Channels\Manager;
 
 class ManagerTest extends TestCase
 {
@@ -20,7 +19,7 @@ class ManagerTest extends TestCase
     /** @test */
     public function it_has_proper_signature()
     {
-        $manager = new Manager;
+        $manager = new Manager();
 
         $this->assertSame(0, count($manager));
     }

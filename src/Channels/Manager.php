@@ -3,8 +3,8 @@
 namespace Swarm\Channels;
 
 use Countable;
-use Ratchet\ConnectionInterface;
 use Illuminate\Support\Collection;
+use Ratchet\ConnectionInterface;
 
 class Manager implements Countable
 {
@@ -57,8 +57,9 @@ class Manager implements Countable
     /**
      * Unsubcribe on explicit channels.
      *
-     * @param  iterable            $channelIds
-     * @param  ConnectionInterface $connection
+     * @param iterable            $channelIds
+     * @param ConnectionInterface $connection
+     *
      * @return void
      */
     public function unsubscribeFrom(iterable $channelIds, ConnectionInterface $connection): void
@@ -74,7 +75,6 @@ class Manager implements Countable
                 }
             }
         }
-
     }
 
     /**
