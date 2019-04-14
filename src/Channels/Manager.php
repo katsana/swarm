@@ -2,9 +2,11 @@
 
 namespace Swarm\Channels;
 
+use Countable;
 use Ratchet\ConnectionInterface;
+use Illuminate\Support\Collection;
 
-class Manager
+class Manager implements Countable
 {
     /**
      * List of channels.
@@ -33,21 +35,35 @@ class Manager
     }
 
     /**
-     * Unsubscribe from channel.
+     * Unsubscribe from all channels.
      *
      * @param \Rachet\ConnectionInterface $connection
      *
      * @return void
      */
-    public function unsubscribe(ConnectionInterface $connection)
+    public function unsubscribe(ConnectionInterface $connection): void
     {
-        if (! isset($connection->channel)) {
+        if (! isset($connection->channels)) {
             return;
         }
 
         $channelIds = Collection::make($connection->channels)->transform(function ($connection) {
             return $connection->id();
-        })->each(function ($channelId) {
+        });
+
+        $this->unsubscribeFrom($channelIds, $connection);
+    }
+
+    /**
+     * Unsubcribe on explicit channels.
+     *
+     * @param  iterable            $channelIds
+     * @param  ConnectionInterface $connection
+     * @return void
+     */
+    public function unsubscribeFrom(iterable $channelIds, ConnectionInterface $connection): void
+    {
+        foreach ($channelIds as $channelId) {
             $channel = $this->channels[$channelId] ?? null;
 
             if (! \is_null($channel)) {
@@ -57,7 +73,8 @@ class Manager
                     unset($this->channels[$channelId]);
                 }
             }
-        });
+        }
+
     }
 
     /**
@@ -73,6 +90,16 @@ class Manager
         if (isset($this->channels[$channelId])) {
             $this->channels[$channelId]->broadcast($payload);
         }
+    }
+
+    /**
+     * Count available subscribers.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return \count($this->channels);
     }
 
     /**
