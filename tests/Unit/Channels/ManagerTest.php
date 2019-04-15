@@ -62,6 +62,18 @@ class ManagerTest extends TestCase
     }
 
     /** @test */
+    public function it_does_nothing_when_unsubscribing_connections_without_any_subscription()
+    {
+        $manager = new Manager();
+
+        $subscriber1 = m::mock(ConnectionInterface::class);
+
+        $subscriber1->socketId = 'subscriber1';
+
+        $this->assertNull($manager->unsubscribe($subscriber1));
+    }
+
+    /** @test */
     public function it_can_broadcast_to_subscribed_connections()
     {
         $payload = [
