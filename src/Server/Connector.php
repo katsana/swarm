@@ -6,8 +6,7 @@ use Ratchet\Http\HttpServer;
 use Ratchet\Http\Router as RatchetRouter;
 use Ratchet\Server\IoServer;
 use React\EventLoop\LoopInterface;
-use React\Socket\SecureServer;
-use React\Socket\Server;
+use React\Socket\Server as SocketServer;
 use React\Socket\ServerInterface;
 use React\Stream\WritableStreamInterface;
 
@@ -83,7 +82,7 @@ class Connector
      */
     protected function bootSecuredSocket(array $options): ServerInterface
     {
-        $socket = new Server("tls://{$this->hostname}", $this->eventLoop, $options);
+        $socket = new SocketServer("tls://{$this->hostname}", $this->eventLoop, $options);
 
         $this->writer->write("Server running at https://{$this->hostname}\n");
 
@@ -97,7 +96,7 @@ class Connector
      */
     protected function bootUnsecuredServer(): ServerInterface
     {
-        $socket = new SecureServer($this->hostname, $this->eventLoop);
+        $socket = new SocketServer($this->hostname, $this->eventLoop);
 
         $this->writer->write("Server running at http://{$this->hostname}\n");
 
