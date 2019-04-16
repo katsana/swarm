@@ -2,6 +2,8 @@
 
 namespace Swarm\Tests\Feature;
 
+use React\EventLoop\LoopInterface;
+use React\Stream\WritableStreamInterface;
 use Swarm\Tests\TestCase;
 
 class SwarmServiceProviderTest extends TestCase
@@ -22,7 +24,7 @@ class SwarmServiceProviderTest extends TestCase
     public function it_register_the_services()
     {
         $this->assertInstanceOf('Swarm\Server\Router', $this->app['swarm.router']);
-        $this->assertInstanceOf('React\EventLoop\LoopInterface', $this->app['swarm.event-loop']);
-        $this->assertInstanceOf('React\Stream\WritableStreamInterface', $this->app['swarm.stream-writer']);
+        $this->assertInstanceOf(LoopInterface::class, $this->app[LoopInterface::class]);
+        $this->assertInstanceOf(WritableStreamInterface::class, $this->app[WritableStreamInterface::class]);
     }
 }

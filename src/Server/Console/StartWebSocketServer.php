@@ -4,6 +4,8 @@ namespace Swarm\Server\Console;
 
 use Illuminate\Console\Command;
 use Ratchet\Http\Router;
+use React\EventLoop\LoopInterface;
+use React\Stream\WritableStreamInterface;
 use Swarm\Server\Connector;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
@@ -41,8 +43,8 @@ class StartWebSocketServer extends Command
 
         $connector = new Connector(
             "{$config['server']['host']}:{$config['server']['port']}",
-            $this->laravel['swarm.event-loop'],
-            $this->laravel['swarm.stream-writer']
+            $this->laravel[LoopInterface::class],
+            $this->laravel[WritableStreamInterface::class]
         );
 
         $server = $connector->handle($router, $config);

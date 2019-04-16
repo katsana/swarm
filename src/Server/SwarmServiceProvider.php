@@ -6,9 +6,9 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use React\EventLoop\Factory;
+use React\EventLoop\LoopInterface;
 use React\Stream\WritableResourceStream;
 use React\Stream\WritableStreamInterface;
-use React\EventLoop\LoopInterface;
 
 class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -19,30 +19,12 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register()
     {
-        $this->app->singleton('swarm.event-loop', function () {
+        $this->app->singleton(LoopInterface::class, function () {
             return Factory::create();
         });
 
-        $this->app->singleton('swarm.stream-writer', function (Application $app) {
-            return new WritableResourceStream(STDOUT, $app['swarm.event-loop']);
-        });
-
-        $this->registerCoreContainerAliases();
-    }
-
-    /**
-     * Register the core class aliases in the container.
-     *
-     * @return void
-     */
-    protected function registerCoreContainerAliases(): void
-    {
-        $this->app->bind(LoopInterface::class, function (Application $app) {
-            return $app->make('swarm.event-loop');
-        });
-
-        $this->app->bind(WritableStreamInterface::class, function (Application $app) {
-            return $app->make('swarm.stream-writer');
+        $this->app->singleton(WritableStreamInterface::class, function (Application $app) {
+            return new WritableResourceStream(STDOUT, $app[LoopInterface::class]);
         });
     }
 
@@ -68,9 +50,7 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
     public function provides()
     {
         return [
-            'swarm.event-loop',
             LoopInterface::class,
-            'swarm.stream-writer',
             WritableStreamInterface::class,
         ];
     }

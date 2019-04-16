@@ -5,6 +5,7 @@ namespace Swarm\Server;
 use Illuminate\Contracts\Foundation\Application;
 use Ratchet\WebSocket\MessageComponentInterface;
 use Ratchet\WebSocket\WsServer;
+use React\EventLoop\LoopInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -89,7 +90,7 @@ class Router
         $handler = $this->app->make($action);
 
         if (\method_exists($handler, 'withEventLoop')) {
-            $handler->withEventLoop($this->app['swarm.event-loop']);
+            $handler->withEventLoop($this->app[LoopInterface::class]);
         }
 
         if (\is_subclass_of($action, MessageComponentInterface::class)) {
