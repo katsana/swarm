@@ -47,11 +47,7 @@ class Manager implements Countable
             return;
         }
 
-        $channelIds = Collection::make($connection->channels)->transform(function ($connection) {
-            return $connection->id();
-        });
-
-        $this->unsubscribeFrom($channelIds, $connection);
+        $this->unsubscribeFrom($connection->channels, $connection);
     }
 
     /**

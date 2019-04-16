@@ -40,14 +40,14 @@ class ChannelTest extends TestCase
         $channel->subscribe($subscriber2);
 
         $this->assertEquals(2, count($channel));
-        $this->assertSame($channel, $subscriber1->channels['foo']);
-        $this->assertSame($channel, $subscriber2->channels['foo']);
+        $this->assertSame(['foo'], $subscriber1->channels);
+        $this->assertSame(['foo'], $subscriber2->channels);
 
         $channel->unsubscribe($subscriber1);
 
         $this->assertEquals(1, count($channel));
         $this->assertEmpty($subscriber1->channels);
-        $this->assertSame($channel, $subscriber2->channels['foo']);
+        $this->assertSame(['foo'], $subscriber2->channels);
     }
 
     /** @test */

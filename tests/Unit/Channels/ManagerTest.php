@@ -42,23 +42,23 @@ class ManagerTest extends TestCase
         $manager->subscribe('2', $subscriber3);
 
         $this->assertEquals(2, count($manager));
-        $this->assertInstanceOf(Channel::class, $subscriber1->channels['1']);
-        $this->assertInstanceOf(Channel::class, $subscriber2->channels['1']);
-        $this->assertInstanceOf(Channel::class, $subscriber3->channels['2']);
+        $this->assertSame(['1'], $subscriber1->channels);
+        $this->assertSame(['1'], $subscriber2->channels);
+        $this->assertSame(['2'], $subscriber3->channels);
 
         $manager->unsubscribe($subscriber1);
 
         $this->assertEquals(2, count($manager));
         $this->assertEmpty($subscriber1->channels);
-        $this->assertInstanceOf(Channel::class, $subscriber2->channels['1']);
-        $this->assertInstanceOf(Channel::class, $subscriber3->channels['2']);
+        $this->assertSame(['1'], $subscriber2->channels);
+        $this->assertSame(['2'], $subscriber3->channels);
 
         $manager->unsubscribe($subscriber2);
 
         $this->assertEquals(1, count($manager));
         $this->assertEmpty($subscriber1->channels);
         $this->assertEmpty($subscriber2->channels);
-        $this->assertInstanceOf(Channel::class, $subscriber3->channels['2']);
+        $this->assertSame(['2'], $subscriber3->channels);
     }
 
     /** @test */

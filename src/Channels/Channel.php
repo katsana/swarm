@@ -50,11 +50,7 @@ class Channel implements Countable
      */
     public function subscribe(ConnectionInterface $connection)
     {
-        if (! isset($connection->channels)) {
-            $connection->channels = [];
-        }
-
-        $connection->channels[$this->id()] = $this;
+        $connection->channels = ($connection->channels ?? []) + [$this->id()];
 
         $this->subscribers[$connection->socketId] = $connection;
 
@@ -70,9 +66,11 @@ class Channel implements Countable
      */
     public function unsubscribe(ConnectionInterface $connection): void
     {
-        unset(
-            $this->subscribers[$connection->socketId], $connection->channels[$this->id()]
-        );
+        unset($this->subscribers[$connection->socketId]);
+
+        $connection->channels = \collect($connection->channels)->reject(function ($channel) {
+            return $channel === $this->id();
+        })->values()->all();
     }
 
     /**
