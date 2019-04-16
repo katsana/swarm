@@ -50,6 +50,10 @@ class Channel implements Countable
      */
     public function subscribe(ConnectionInterface $connection)
     {
+        if (! isset($connection->channels)) {
+            $connection->channels = [];
+        }
+
         $connection->channels[$this->id()] = $this;
 
         $this->subscribers[$connection->socketId] = $connection;
