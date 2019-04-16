@@ -19,7 +19,7 @@ class Channel implements Countable
      *
      * @var array
      */
-    protected $subsribers = [];
+    protected $subscribers = [];
 
     /**
      * Construct a new channel.
