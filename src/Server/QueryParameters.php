@@ -54,10 +54,10 @@ class QueryParameters
      *
      * @param string $name
      *
-     * @return string
+     * @return string|null
      */
-    public function get(string $name): string
+    public function get(string $name): ?string
     {
-        return $this->all()[$name] ?? '';
+        return $this->all()[$name] ?? null;
     }
 }
