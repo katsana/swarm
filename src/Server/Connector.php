@@ -2,7 +2,7 @@
 
 namespace Swarm\Server;
 
-use Laravie\Stream\Log\Console as Logger;
+use Laravie\Stream\Logger;
 use Ratchet\Http\HttpServer;
 use Ratchet\Http\Router as RatchetRouter;
 use Ratchet\Server\IoServer;
@@ -29,7 +29,7 @@ class Connector
     /**
      * The console logger.
      *
-     * @var \Laravie\Stream\Log\Console
+     * @var \Laravie\Stream\Logger
      */
     protected $logger;
 
@@ -38,7 +38,7 @@ class Connector
      *
      * @param string                         $hostname
      * @param \React\EventLoop\LoopInterface $eventLoop
-     * @param \Laravie\Stream\Log\Console    $logger
+     * @param \Laravie\Stream\Logger         $logger
      */
     public function __construct(string $hostname, LoopInterface $eventLoop, Logger $logger)
     {

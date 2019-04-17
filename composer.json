@@ -20,6 +20,11 @@
             "email": "freek@spatie.be",
             "homepage": "https://spatie.be",
             "role": "Developer"
+        },
+        {
+            "name": "Mior Muhammad Zaki",
+            "email": "crynobone@katsana.com",
+            "role": "Developer"
         }
     ],
     "autoload": {
@@ -42,7 +47,7 @@
         "illuminate/http": "~5.8",
         "illuminate/routing": "~5.8",
         "illuminate/support": "~5.8",
-        "laravie/stream": "^1.0",
+        "laravie/stream": "^0.1",
         "symfony/http-kernel": "~4.0"
     },
     "require-dev": {
