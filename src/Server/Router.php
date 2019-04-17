@@ -89,7 +89,7 @@ class Router
     {
         $handler = $this->app->make($action);
 
-        if (\method_exists($handler, 'withEventLoop')) {
+        if (\method_exists($handler, 'withEventLoop') && $this->app->bound(LoopInterface::class)) {
             $handler->withEventLoop($this->app[LoopInterface::class]);
         }
 

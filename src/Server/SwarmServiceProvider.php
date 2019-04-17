@@ -19,13 +19,7 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register()
     {
-        $this->app->singleton(LoopInterface::class, function () {
-            return Factory::create();
-        });
-
-        $this->app->singleton(WritableStreamInterface::class, function (Application $app) {
-            return new WritableResourceStream(STDOUT, $app[LoopInterface::class]);
-        });
+        //
     }
 
     /**
@@ -35,11 +29,7 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                Console\StartWebSocketServer::class,
-            ]);
-        }
+        //
     }
 
     /**
@@ -49,9 +39,6 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function provides()
     {
-        return [
-            LoopInterface::class,
-            WritableStreamInterface::class,
-        ];
+        return [];
     }
 }

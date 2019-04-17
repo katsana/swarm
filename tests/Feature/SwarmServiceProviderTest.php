@@ -24,7 +24,5 @@ class SwarmServiceProviderTest extends TestCase
     public function it_register_the_services()
     {
         $this->assertInstanceOf('Swarm\Server\Router', $this->app['swarm.router']);
-        $this->assertInstanceOf(LoopInterface::class, $this->app[LoopInterface::class]);
-        $this->assertInstanceOf(WritableStreamInterface::class, $this->app[WritableStreamInterface::class]);
     }
 }
