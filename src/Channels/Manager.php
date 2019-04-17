@@ -3,7 +3,6 @@
 namespace Swarm\Channels;
 
 use Countable;
-use Illuminate\Support\Collection;
 use Ratchet\ConnectionInterface;
 
 class Manager implements Countable

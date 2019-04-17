@@ -2,8 +2,6 @@
 
 namespace Swarm\Tests\Feature;
 
-use React\EventLoop\LoopInterface;
-use React\Stream\WritableStreamInterface;
 use Swarm\Tests\TestCase;
 
 class SwarmServiceProviderTest extends TestCase

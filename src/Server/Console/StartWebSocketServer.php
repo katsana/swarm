@@ -3,7 +3,9 @@
 namespace Swarm\Server\Console;
 
 use Illuminate\Console\Command;
+use Laravie\Stream\Log\Console as Logger;
 use Ratchet\Http\Router;
+use React\EventLoop\Factory as EventLoop;
 use React\EventLoop\LoopInterface;
 use React\Stream\WritableStreamInterface;
 use Swarm\Server\Connector;
@@ -38,15 +40,16 @@ class StartWebSocketServer extends Command
         ]);
 
         $hostname = "{$config['server']['host']}:{$config['server']['port']}";
+        $eventLoop = EventLoop::create();
 
-        $this->laravel->instance(LoopInterface::class, $eventLoop = Factory::create());
-        $this->laravel->instance(WritableStreamInterface::class, $writer = new WritableResourceStream(STDOUT, $eventLoop));
+        $this->laravel->instance(LoopInterface::class, $eventLoop);
+        $this->laravel->instance(WritableStreamInterface::class, new WritableResourceStream(STDOUT, $eventLoop));
 
         $router = new Router(
             new UrlMatcher($this->laravel['swarm.router']->getRoutes(), new RequestContext())
         );
 
-        $connector = new Connector($hostname, $eventLoop, $writer);
+        $connector = new Connector($hostname, $eventLoop, $this->laravel[Logger::class]);
 
         $server = $connector->handle($router, $config);
 

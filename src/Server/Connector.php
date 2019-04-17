@@ -2,13 +2,13 @@
 
 namespace Swarm\Server;
 
+use Laravie\Stream\Log\Console as Logger;
 use Ratchet\Http\HttpServer;
 use Ratchet\Http\Router as RatchetRouter;
 use Ratchet\Server\IoServer;
 use React\EventLoop\LoopInterface;
 use React\Socket\Server as SocketServer;
 use React\Socket\ServerInterface;
-use React\Stream\WritableStreamInterface;
 
 class Connector
 {
@@ -27,24 +27,24 @@ class Connector
     protected $eventLoop;
 
     /**
-     * The writable stream.
+     * The console logger.
      *
-     * @var \React\Stream\WritableStreamInterface
+     * @var \Laravie\Stream\Log\Console
      */
-    protected $writer;
+    protected $logger;
 
     /**
      * Construct a new HTTP Server connector.
      *
-     * @param string                                $hostname
-     * @param \React\EventLoop\LoopInterface        $eventLoop
-     * @param \React\Stream\WritableStreamInterface $writable
+     * @param string                         $hostname
+     * @param \React\EventLoop\LoopInterface $eventLoop
+     * @param \Laravie\Stream\Log\Console    $logger
      */
-    public function __construct(string $hostname, LoopInterface $eventLoop, WritableStreamInterface $writer)
+    public function __construct(string $hostname, LoopInterface $eventLoop, Logger $logger)
     {
         $this->hostname = $hostname;
         $this->eventLoop = $eventLoop;
-        $this->writer = $writer;
+        $this->logger = $logger;
     }
 
     /**
@@ -84,7 +84,7 @@ class Connector
     {
         $socket = new SocketServer("tls://{$this->hostname}", $this->eventLoop, $options);
 
-        $this->writer->write("Server running at https://{$this->hostname}\n");
+        $this->logger->info("Server running at https://{$this->hostname}\n");
 
         return $socket;
     }
@@ -98,7 +98,7 @@ class Connector
     {
         $socket = new SocketServer($this->hostname, $this->eventLoop);
 
-        $this->writer->write("Server running at http://{$this->hostname}\n");
+        $this->logger->info("Server running at http://{$this->hostname}\n");
 
         return $socket;
     }

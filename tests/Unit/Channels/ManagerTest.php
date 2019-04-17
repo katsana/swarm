@@ -3,7 +3,6 @@
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Ratchet\ConnectionInterface;
-use Swarm\Channels\Channel;
 use Swarm\Channels\Manager;
 
 class ManagerTest extends TestCase

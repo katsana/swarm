@@ -31,7 +31,6 @@ class SwarmServiceProvider extends ServiceProvider
             __DIR__.'/../config/swarm.php' => \config_path('config/swarm.php'),
         ], 'config');
 
-
         if ($this->app->runningInConsole()) {
             $this->commands([
                 Server\Console\StartWebSocketServer::class,
