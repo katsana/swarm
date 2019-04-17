@@ -31,7 +31,6 @@ abstract class TestCase extends Testing
     {
         return [
             'Swarm\SwarmServiceProvider',
-            'Swarm\Server\SwarmServiceProvider',
         ];
     }
 }

@@ -40,14 +40,15 @@ class StartWebSocketServer extends Command
         ]);
 
         $hostname = "{$config['server']['host']}:{$config['server']['port']}";
-        $eventLoop = $this->laravel[LoopInterface::class];
-        $this->laravel->instance(WritableStreamInterface::class, new WritableResourceStream(STDOUT, $eventLoop));
+
+        $eventLoop = $this->laravel->make(LoopInterface::class);
+        $logger = $this->laravel->make(Logger::class);
 
         $router = new Router(
-            new UrlMatcher($this->laravel['swarm.router']->getRoutes(), new RequestContext())
+            new UrlMatcher($this->laravel->make('swarm.router')->getRoutes(), new RequestContext())
         );
 
-        $connector = new Connector($hostname, $eventLoop, $this->laravel[Logger::class]);
+        $connector = new Connector($hostname, $eventLoop, $logger);
 
         $server = $connector->handle($router, $config);
 

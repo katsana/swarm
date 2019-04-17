@@ -58,8 +58,7 @@
         },
         "laravel": {
             "providers": [
-                "Swarm\\SwarmServiceProvider",
-                "Swarm\\Server\\SwarmServiceProvider"
+                "Swarm\\SwarmServiceProvider"
             ],
             "aliases": {
                 "Swarm": "Swarm\\Router"
