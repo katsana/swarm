@@ -4,8 +4,8 @@ namespace Swarm\Tests\Unit\Server;
 
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
-use Swarm\Server\QueryParameters;
 use Psr\Http\Message\RequestInterface;
+use Swarm\Server\QueryParameters;
 
 class QueryParametersTest extends TestCase
 {
@@ -18,7 +18,7 @@ class QueryParametersTest extends TestCase
     }
 
     /** @test */
-    public function it_can()
+    public function it_can_parse_information_from_request()
     {
         $request = m::mock(RequestInterface::class);
 
@@ -30,6 +30,5 @@ class QueryParametersTest extends TestCase
         $this->assertSame('bar', $query->get('foo'));
         $this->assertSame('world', $query->get('hello'));
         $this->assertNull($query->get('foobar'));
-
     }
 }
