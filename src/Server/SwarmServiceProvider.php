@@ -5,6 +5,8 @@ namespace Swarm\Server;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
+use React\EventLoop\Factory;
+use React\EventLoop\LoopInterface;
 
 class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -15,7 +17,9 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(LoopInterface::class, function () {
+            return Factory::create();
+        });
     }
 
     /**
@@ -25,7 +29,11 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function boot()
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\StartWebSocketServer::class,
+            ]);
+        }
     }
 
     /**
@@ -35,6 +43,8 @@ class SwarmServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function provides()
     {
-        return [];
+        return [
+            LoopInterface::class,
+        ];
     }
 }
