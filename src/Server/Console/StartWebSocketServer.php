@@ -7,6 +7,7 @@ use Laravie\Stream\Log\Console as Logger;
 use Ratchet\Http\Router;
 use React\EventLoop\Factory as EventLoop;
 use React\EventLoop\LoopInterface;
+use React\Stream\WritableResourceStream;
 use React\Stream\WritableStreamInterface;
 use Swarm\Server\Connector;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
