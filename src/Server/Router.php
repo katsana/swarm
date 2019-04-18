@@ -87,14 +87,19 @@ class Router
      */
     protected function asController(string $action)
     {
-        $handler = $this->app->make($action);
+        $app = $this->app;
+        $handler = $app->make($action);
 
         if (\method_exists($handler, 'withEventLoop') && $this->app->bound(LoopInterface::class)) {
-            $handler->withEventLoop($this->app[LoopInterface::class]);
+            $handler->withEventLoop($app->make(LoopInterface::class));
         }
 
         if (\is_subclass_of($action, MessageComponentInterface::class)) {
-            return new WsServer($handler);
+            $component = $app->bound(Logger::class)
+                            ? new MessageComponent($handler, $this->app->make(Logger::class))
+                            : $handler;
+
+            return new WsServer($component);
         }
 
         return $handler;
