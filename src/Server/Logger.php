@@ -3,6 +3,7 @@
 namespace Swarm\Server;
 
 use Exception;
+use Illuminate\Support\Traits\ForwardsCalls;
 use Laravie\Stream\Log\Console;
 use Ratchet\ConnectionInterface;
 use Ratchet\RFC6455\Messaging\MessageInterface;
@@ -10,6 +11,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Logger
 {
+    use ForwardsCalls;
+
     /**
      * Console output.
      *
@@ -139,5 +142,20 @@ class Logger
         }
 
         $this->output->error($message);
+    }
+
+    /**
+     * Passthrough method call to Laravie\Stream\Log\Console.
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @throws \BadMethodException if method doesn't exist
+     *
+     * @return mixed
+     */
+    public function __call(string $method, array $parameters)
+    {
+        return $this->forwardCallTo($this->output, $method, $parameters);
     }
 }
