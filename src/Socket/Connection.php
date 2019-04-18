@@ -4,7 +4,7 @@ namespace Swarm\Socket;
 
 use Laravie\Stream\Logger;
 use Ratchet\ConnectionInterface;
-use Ratchet\WsConnection;
+use Ratchet\WebSocket\WsConnection;
 
 class Connection extends WsConnection implements ConnectionInterface
 {
