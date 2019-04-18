@@ -50,7 +50,7 @@ class MessageComponent implements MessageComponentInterface
     {
         $socketId = $connection->socketId ?? null;
 
-        $this->warn("New connection opened for {$socketId}.");
+        $this->logger->warn("New connection opened for {$socketId}.");
 
         $this->component->onOpen(new Connection($connection, $this->logger));
     }
