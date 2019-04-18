@@ -2,6 +2,8 @@
 
 namespace Swarm;
 
+use React\Stream\WritableStreamInterface;
+use JakubOnderka\PhpConsoleColor\ConsoleColor;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Routing\RouteCollection;
@@ -17,6 +19,10 @@ class SwarmServiceProvider extends ServiceProvider
     {
         $this->app->singleton('swarm.router', function (Application $app) {
             return new Server\Router($app, new RouteCollection());
+        });
+
+        $this->app->singleton('swarm.logger', function (Application $app) {
+            return new Logger($app->make(WritableStreamInterface::class), new ConsoleColor());
         });
     }
 
