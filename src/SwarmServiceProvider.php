@@ -4,9 +4,8 @@ namespace Swarm;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
-use JakubOnderka\PhpConsoleColor\ConsoleColor;
-use Laravie\Stream\Log\Console as Logger;
-use React\Stream\WritableStreamInterface;
+use Laravie\Stream\Log\Console as ConsoleLogger;
+use Swarm\Server\Logger;
 use Symfony\Component\Routing\RouteCollection;
 
 class SwarmServiceProvider extends ServiceProvider
@@ -23,7 +22,7 @@ class SwarmServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('swarm.logger', function (Application $app) {
-            return new Logger($app->make(WritableStreamInterface::class), new ConsoleColor());
+            return new Logger($app->make(ConsoleLogger::class));
         });
     }
 

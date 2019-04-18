@@ -3,11 +3,11 @@
 namespace Swarm\Socket;
 
 use Exception;
-use Laravie\Stream\Logger;
 use Ratchet\ConnectionInterface;
-use Swarm\Concerns\GenerateSocketId;
 use Ratchet\RFC6455\Messaging\MessageInterface;
 use Ratchet\WebSocket\MessageComponentInterface;
+use Swarm\Concerns\GenerateSocketId;
+use Swarm\Server\Logger;
 
 class MessageComponent implements MessageComponentInterface
 {
@@ -23,7 +23,7 @@ class MessageComponent implements MessageComponentInterface
     /**
      * The logger implementation.
      *
-     * @var \Laravie\Stream\Logger
+     * @var \Swarm\Server\Logger
      */
     protected $logger;
 
@@ -31,7 +31,7 @@ class MessageComponent implements MessageComponentInterface
      * Construct a new message component decorator.
      *
      * @param \Ratchet\WebSocket\MessageComponentInterface $component
-     * @param \Laravie\Stream\Logger                       $logger
+     * @param \Swarm\Server\Logger                         $logger
      */
     public function __construct(MessageComponentInterface $component, Logger $logger)
     {
@@ -48,9 +48,7 @@ class MessageComponent implements MessageComponentInterface
             $this->generateSocketId($connection);
         }
 
-        $socketId = $connection->socketId ?? null;
-
-        $this->logger->warn("[Conn:{$socketId}] connection opened.");
+        $this->logger->onConnectionUpdate($connection, 'connection opened');
 
         $this->component->onOpen(new Connection($connection, $this->logger));
     }
@@ -60,9 +58,7 @@ class MessageComponent implements MessageComponentInterface
      */
     public function onMessage(ConnectionInterface $connection, MessageInterface $message)
     {
-        $socketId = $connection->socketId ?? null;
-
-        $this->logger->info("[Conn:{$socketId}] received message: {$message->getPayload()}.");
+        $this->info->onMessageReceived($connection, $message);
 
         $this->component->onMessage(new Connection($connection, $this->logger), $message);
     }
@@ -72,9 +68,7 @@ class MessageComponent implements MessageComponentInterface
      */
     public function onClose(ConnectionInterface $connection)
     {
-        $socketId = $connection->socketId ?? null;
-
-        $this->logger->warn("[Conn:{$socketId}] closed.");
+        $this->logger->onConnectionUpdate($connection, 'connection closed');
 
         $this->component->onClose(new Connection($connection, $this->logger));
     }
@@ -84,9 +78,7 @@ class MessageComponent implements MessageComponentInterface
      */
     public function onError(ConnectionInterface $connection, Exception $exception)
     {
-        $exceptionClass = \get_class($exception);
-
-        $this->logger->error("Exception `{$exceptionClass}` thrown: `{$exception->getMessage()}`.");
+        $this->logger->onError($exception);
 
         $this->component->onError(new Connection($connection, $this->logger), $exception);
     }

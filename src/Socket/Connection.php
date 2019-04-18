@@ -2,16 +2,16 @@
 
 namespace Swarm\Socket;
 
-use Laravie\Stream\Logger;
 use Ratchet\AbstractConnectionDecorator;
 use Ratchet\ConnectionInterface;
+use Swarm\Server\Logger;
 
 class Connection extends AbstractConnectionDecorator implements ConnectionInterface
 {
     /**
      * The logger implementation.
      *
-     * @var \Laravie\Stream\Logger
+     * @var \Swarm\Server\Logger
      */
     protected $logger;
 
@@ -19,7 +19,7 @@ class Connection extends AbstractConnectionDecorator implements ConnectionInterf
      * Construct connection logger.
      *
      * @param \Ratchet\ConnectionInterface $connection
-     * @param \Laravie\Stream\Logger       $logger
+     * @param \Swarm\Server\Logger         $logger
      */
     public function __construct(ConnectionInterface $connection, Logger $logger)
     {
@@ -35,9 +35,7 @@ class Connection extends AbstractConnectionDecorator implements ConnectionInterf
     {
         $connection = $this->getConnection();
 
-        $socketId = $connection->socketId ?? null;
-
-        $this->logger->info("[Conn:{$socketId}] sending message {$data}");
+        $this->logger->onMessageBroadcast($connection, $data);
 
         $connection->send($data);
     }
@@ -49,7 +47,7 @@ class Connection extends AbstractConnectionDecorator implements ConnectionInterf
     {
         $connection = $this->getConnection();
 
-        $this->logger->warn("[Conn:{$connection->socketId}] closing.");
+        $this->logger->onConnectionUpdate($connection, 'closing connection');
 
         $connection->close();
     }

@@ -40,6 +40,7 @@ class StartWebSocketServer extends Command
 
         $eventLoop = $this->laravel->make(LoopInterface::class);
         $logger = $this->laravel->make('swarm.logger');
+        $logger->fromConsoleOutput($this->output);
 
         $router = new Router(
             new UrlMatcher($this->laravel->make('swarm.router')->getRoutes(), new RequestContext())
