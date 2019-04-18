@@ -5,11 +5,14 @@ namespace Swarm\Socket;
 use Exception;
 use Laravie\Stream\Logger;
 use Ratchet\ConnectionInterface;
+use Swarm\Concerns\GenerateSocketId;
 use Ratchet\RFC6455\Messaging\MessageInterface;
 use Ratchet\WebSocket\MessageComponentInterface;
 
 class MessageComponent implements MessageComponentInterface
 {
+    use GenerateSocketId;
+
     /**
      * Component implementation.
      *
@@ -41,9 +44,13 @@ class MessageComponent implements MessageComponentInterface
      */
     public function onOpen(ConnectionInterface $connection)
     {
+        if (! isset($connection->socketId)) {
+            $this->generateSocketId($connection);
+        }
+
         $socketId = $connection->socketId ?? null;
 
-        $this->logger->warn("New connection opened for {$socketId}.");
+        $this->logger->warn("[Conn:{$socketId}] connection opened.");
 
         $this->component->onOpen(new Connection($connection, $this->logger));
     }
@@ -55,7 +62,7 @@ class MessageComponent implements MessageComponentInterface
     {
         $socketId = $connection->socketId ?? null;
 
-        $this->logger->info("Connection ID {$socketId} received message: {$message->getPayload()}.");
+        $this->logger->info("[Conn:{$socketId}] received message: {$message->getPayload()}.");
 
         $this->component->onMessage(new Connection($connection, $this->logger), $message);
     }
@@ -67,7 +74,7 @@ class MessageComponent implements MessageComponentInterface
     {
         $socketId = $connection->socketId ?? null;
 
-        $this->logger->warn("Connection ID {$socketId} closed.");
+        $this->logger->warn("[Conn:{$socketId}] closed.");
 
         $this->component->onClose(new Connection($connection, $this->logger));
     }

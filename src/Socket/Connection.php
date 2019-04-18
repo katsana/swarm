@@ -37,7 +37,7 @@ class Connection extends AbstractConnectionDecorator implements ConnectionInterf
 
         $socketId = $connection->socketId ?? null;
 
-        $this->logger->info("Connection ID {$socketId} sending message {$data}");
+        $this->logger->info("[Conn:{$socketId}] sending message {$data}");
 
         $connection->send($data);
     }
@@ -49,7 +49,7 @@ class Connection extends AbstractConnectionDecorator implements ConnectionInterf
     {
         $connection = $this->getConnection();
 
-        $this->logger->warn("Connection ID {$connection->socketId} closing.");
+        $this->logger->warn("[Conn:{$connection->socketId}] closing.");
 
         $connection->close();
     }
