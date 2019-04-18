@@ -3,10 +3,10 @@
 namespace Swarm\Server;
 
 use Illuminate\Contracts\Foundation\Application;
-use Laravie\Stream\Log\Console as Logger;
 use Ratchet\WebSocket\MessageComponentInterface;
 use Ratchet\WebSocket\WsServer;
 use React\EventLoop\LoopInterface;
+use Swarm\Socket\MessageComponent;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -96,9 +96,9 @@ class Router
         }
 
         if (\is_subclass_of($action, MessageComponentInterface::class)) {
-            $component = new MessageComponent($handler, $this->app->make('swarm.logger'));
-
-            return new WsServer($component);
+            return new WsServer(
+                new MessageComponent($handler, $app->make('swarm.logger'))
+            );
         }
 
         return $handler;

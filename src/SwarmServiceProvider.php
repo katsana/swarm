@@ -2,10 +2,10 @@
 
 namespace Swarm;
 
-use React\Stream\WritableStreamInterface;
-use JakubOnderka\PhpConsoleColor\ConsoleColor;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use JakubOnderka\PhpConsoleColor\ConsoleColor;
+use React\Stream\WritableStreamInterface;
 use Symfony\Component\Routing\RouteCollection;
 
 class SwarmServiceProvider extends ServiceProvider

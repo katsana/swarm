@@ -3,7 +3,6 @@
 namespace Swarm\Server\Console;
 
 use Illuminate\Console\Command;
-use Laravie\Stream\Logger;
 use Ratchet\Http\Router;
 use React\EventLoop\LoopInterface;
 use Swarm\Server\Connector;
