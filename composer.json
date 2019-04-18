@@ -47,7 +47,7 @@
         "illuminate/http": "~5.8",
         "illuminate/routing": "~5.8",
         "illuminate/support": "~5.8",
-        "laravie/stream": "^0.1",
+        "laravie/stream": "^0.2",
         "symfony/http-kernel": "~4.0"
     },
     "require-dev": {
