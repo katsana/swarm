@@ -25,13 +25,6 @@ class MessageComponent implements MessageComponentInterface
     protected $logger;
 
     /**
-     * Verbose output.
-     *
-     * @var bool
-     */
-    protected $verbose = false;
-
-    /**
      * Construct a new message component decorator.
      *
      * @param \Ratchet\WebSocket\MessageComponentInterface $component

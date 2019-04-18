@@ -6,7 +6,7 @@ use Laravie\Stream\Logger;
 use Ratchet\ConnectionInterface;
 use Ratchet\WebSocket\WsConnection;
 
-class Connection extends WsConnection implements ConnectionInterface
+class Connection extends AbstractConnectionDecorator implements ConnectionInterface
 {
     /**
      * The logger implementation.
@@ -33,20 +33,24 @@ class Connection extends WsConnection implements ConnectionInterface
      */
     public function send($data)
     {
-        $socketId = $this->getConnection()->socketId ?? null;
+        $connection = $this->getConnection();
+
+        $socketId = $connection->socketId ?? null;
 
         $this->logger->info("Connection ID {$socketId} sending message {$data}");
 
-        parent::send($data);
+        $connection->send($data);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function close($code = 1000)
+    public function close()
     {
-        $this->logger->warn("Connection ID {$this->getConnection()->socketId} closing.");
+        $connection = $this->getConnection();
 
-        parent::close($code);
+        $this->logger->warn("Connection ID {$connection->socketId} closing.");
+
+        $connection->close();
     }
 }
