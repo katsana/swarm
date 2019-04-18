@@ -3,6 +3,7 @@
 namespace Swarm\Server;
 
 use Illuminate\Contracts\Foundation\Application;
+use Laravie\Stream\Logger;
 use Ratchet\WebSocket\MessageComponentInterface;
 use Ratchet\WebSocket\WsServer;
 use React\EventLoop\LoopInterface;
