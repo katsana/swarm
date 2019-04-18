@@ -127,11 +127,11 @@ class Logger
     /**
      * Log error has occured.
      *
-     * @param \Exception $error
+     * @param \Exception $exception
      *
      * @return void
      */
-    public function onError(Exception $error): void
+    public function onError(Exception $exception): void
     {
         $exceptionClass = \get_class($exception);
 
