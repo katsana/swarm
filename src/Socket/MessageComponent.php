@@ -58,7 +58,7 @@ class MessageComponent implements MessageComponentInterface
      */
     public function onMessage(ConnectionInterface $connection, MessageInterface $message)
     {
-        $this->info->onMessageReceived($connection, $message);
+        $this->logger->onMessageReceived($connection, $message);
 
         $this->component->onMessage(new Connection($connection, $this->logger), $message);
     }
