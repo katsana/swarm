@@ -52,7 +52,7 @@ class MessageComponent implements MessageComponentInterface
 
         $this->warn("New connection opened for {$socketId}.");
 
-        $this->app->onOpen(new Connection($connection, $this->logger));
+        $this->component->onOpen(new Connection($connection, $this->logger));
     }
 
     /**
@@ -64,7 +64,7 @@ class MessageComponent implements MessageComponentInterface
 
         $this->logger->info("Connection ID {$socketId} received message: {$message->getPayload()}.");
 
-        $this->app->onMessage(new Connection($connection, $this->logger), $message);
+        $this->component->onMessage(new Connection($connection, $this->logger), $message);
     }
 
     /**
@@ -88,6 +88,6 @@ class MessageComponent implements MessageComponentInterface
 
         $this->logger->error("Exception `{$exceptionClass}` thrown: `{$exception->getMessage()}`.");
 
-        $this->app->onError(new Connection($connection, $this->logger), $exception);
+        $this->component->onError(new Connection($connection, $this->logger), $exception);
     }
 }
