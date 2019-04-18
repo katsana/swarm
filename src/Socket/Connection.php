@@ -43,10 +43,10 @@ class Connection extends WsConnection implements ConnectionInterface
     /**
      * {@inheritdoc}
      */
-    public function close()
+    public function close($code = 1000)
     {
         $this->logger->warn("Connection ID {$this->getConnection()->socketId} closing.");
 
-        parent::close();
+        parent::close($code);
     }
 }
