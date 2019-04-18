@@ -5,6 +5,7 @@ namespace Swarm;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use JakubOnderka\PhpConsoleColor\ConsoleColor;
+use Laravie\Stream\Log\Console as Logger;
 use React\Stream\WritableStreamInterface;
 use Symfony\Component\Routing\RouteCollection;
 
