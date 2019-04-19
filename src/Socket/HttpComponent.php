@@ -6,6 +6,7 @@ use Exception;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use function GuzzleHttp\Psr7\str;
+use Illuminate\Database\DetectsLostConnections;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -18,6 +19,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 abstract class HttpComponent implements HttpServerInterface
 {
+    use DetectsLostConnections;
+
     /**
      * The PSR-7 request.
      *
@@ -75,6 +78,10 @@ abstract class HttpComponent implements HttpServerInterface
     public function onError(ConnectionInterface $connection, Exception $exception)
     {
         if (! $exception instanceof HttpException) {
+            if ($this->causedByLostConnection($exception)) {
+                exit(0);
+            }
+
             return;
         }
 

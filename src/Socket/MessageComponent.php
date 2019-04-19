@@ -3,6 +3,7 @@
 namespace Swarm\Socket;
 
 use Exception;
+use Illuminate\Database\DetectsLostConnections;
 use Ratchet\ConnectionInterface;
 use Ratchet\RFC6455\Messaging\MessageInterface;
 use Ratchet\WebSocket\MessageComponentInterface;
@@ -11,7 +12,7 @@ use Swarm\Server\Logger;
 
 class MessageComponent implements MessageComponentInterface
 {
-    use GenerateSocketId;
+    use DetectsLostConnections, GenerateSocketId;
 
     /**
      * Component implementation.
@@ -81,5 +82,9 @@ class MessageComponent implements MessageComponentInterface
         $this->logger->onError($exception);
 
         $this->component->onError(new Connection($connection, $this->logger), $exception);
+
+        if ($this->causedByLostConnection($exception)) {
+            exit(0);
+        }
     }
 }
