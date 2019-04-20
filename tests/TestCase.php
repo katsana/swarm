@@ -30,6 +30,7 @@ abstract class TestCase extends Testing
     protected function getPackageProviders($app)
     {
         return [
+            'Laravie\Stream\Laravel\StreamServiceProvider',
             'Swarm\SwarmServiceProvider',
         ];
     }
