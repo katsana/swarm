@@ -3,13 +3,13 @@
 namespace Swarm\Tests\Unit\Socket;
 
 use Mockery as m;
-use Swarm\Server\Logger;
 use PHPUnit\Framework\TestCase;
-use Ratchet\RFC6455\Messaging\MessageInterface;
 use Ratchet\ConnectionInterface;
-use Swarm\Socket\MessageComponent;
-use Ratchet\WebSocket\WsConnection;
+use Ratchet\RFC6455\Messaging\MessageInterface;
 use Ratchet\WebSocket\MessageComponentInterface;
+use Ratchet\WebSocket\WsConnection;
+use Swarm\Server\Logger;
+use Swarm\Socket\MessageComponent;
 
 class MessageComponentTest extends TestCase
 {
@@ -79,7 +79,6 @@ class MessageComponentTest extends TestCase
 
         $this->addToAssertionCount(1);
     }
-
 
     /** @test */
     public function it_can_log_on_error()
