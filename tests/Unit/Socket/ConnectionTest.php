@@ -3,10 +3,10 @@
 namespace Swarm\Tests\Unit\Socket;
 
 use Mockery as m;
-use Swarm\Socket\Connection;
 use PHPUnit\Framework\TestCase;
 use Ratchet\ConnectionInterface;
 use Swarm\Server\Logger;
+use Swarm\Socket\Connection;
 
 class ConnectionTest extends TestCase
 {
