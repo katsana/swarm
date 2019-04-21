@@ -59,7 +59,7 @@ abstract class HttpComponent implements HttpServerInterface
     /**
      * {@inheritdoc}
      */
-    public function onMessage(ConnectionInterface $connection, MessageInterface $message)
+    public function onMessage(ConnectionInterface $connection, $message)
     {
         $this->messageReceived .= $message->getContents();
 

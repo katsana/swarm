@@ -14,25 +14,12 @@ class ResponseFactory
      * Construct a response factory.
      *
      * @param \Ratchet\ConnectionInterface $connection
-     * @param \Illuminate|Http\Request     $request
+     * @param \Illuminate\Http\Request     $request
      */
     public function __construct(ConnectionInterface $connection, Request $request)
     {
-        $this->response = $response;
+        $this->connection = $connection;
         $this->request = $request;
-    }
-
-    /**
-     * Dispatch response to connection.
-     *
-     * @param mixed $response
-     *
-     * @return void
-     */
-    protected function dispatch($response): void
-    {
-        $connection->send(JsonResponse::create($response));
-        $connection->close();
     }
 
     /**
@@ -47,11 +34,26 @@ class ResponseFactory
         $response = $component($this->request);
 
         if ($response instanceof PromiseInterface) {
-            $response->then(function ($response) use ($dispatch) {
-                $dispatch($response);
+            $response->then(function ($message) {
+                $this->dispatch($message);
             });
+
+            return;
         }
 
-        $dispatch($response);
+        $this->dispatch($response);
+    }
+
+    /**
+     * Dispatch response to connection.
+     *
+     * @param mixed $response
+     *
+     * @return void
+     */
+    public function dispatch($response): void
+    {
+        $this->connection->send(JsonResponse::create($response));
+        $this->connection->close();
     }
 }
