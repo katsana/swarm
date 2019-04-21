@@ -3,8 +3,8 @@
 namespace Swarm\Tests\Unit\Server\Concerns;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Routing\Route;
 use Swarm\Server\Concerns\ProvidesRouting;
+use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 class ProvidesRoutingTest extends TestCase
@@ -85,10 +85,12 @@ class ProvidesRoutingTest extends TestCase
     }
 }
 
-class StubRouter {
+class StubRouter
+{
     use ProvidesRouting;
 
-    public function __construct(RouteCollection $routes) {
+    public function __construct(RouteCollection $routes)
+    {
         $this->routes = $routes;
     }
 

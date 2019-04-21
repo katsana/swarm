@@ -2,10 +2,11 @@
 
 namespace Swarm\Server;
 
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Container\Container;
 use Ratchet\WebSocket\MessageComponentInterface;
 use Ratchet\WebSocket\WsServer;
 use React\EventLoop\LoopInterface;
+use Swarm\Exceptions\InvalidWebSocketController;
 use Swarm\Socket\MessageComponent;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
@@ -17,17 +18,17 @@ class Router
     /**
      * The app container implementation.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var Illuminate\Contracts\Container\Container
      */
     protected $app;
 
     /**
      * Construct router.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     * @param \Symfony\Component\Routing\RouteCollection   $routes
+     * @param \Illuminate\Contracts\Container\Container  $app
+     * @param \Symfony\Component\Routing\RouteCollection $routes
      */
-    public function __construct(Application $app, RouteCollection $routes)
+    public function __construct(Container $app, RouteCollection $routes)
     {
         $this->app = $app;
         $this->routes = $routes;
