@@ -150,6 +150,20 @@ class LoggerTest extends TestCase
     }
 
     /** @test */
+    public function it_can_log_error()
+    {
+        $console = m::mock(Console::class);
+
+        $console->shouldReceive('error')->once()->with('Exception `Exception` thrown: `Data is invalid`.');
+
+        $logger = new Logger($console);
+
+        $logger->onError(new \Exception('Data is invalid'));
+
+        $this->addToAssertionCount(1);
+    }
+
+    /** @test */
     public function it_can_forward_call_to_logger()
     {
         $console = m::mock(Console::class);
