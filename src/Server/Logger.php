@@ -78,8 +78,8 @@ class Logger
     /**
      * Log connection state update.
      *
-     * @param ConnectionInterface $connection
-     * @param string              $state
+     * @param \Ratchet\ConnectionInterface $connection
+     * @param string                       $state
      *
      * @return void
      */
