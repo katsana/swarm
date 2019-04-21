@@ -7,13 +7,13 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Database\DetectsLostConnections;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\RequestInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Http\HttpServerInterface;
 use Swarm\Server\QueryParameters;
+use Swarm\Server\ResponseFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -51,7 +51,9 @@ abstract class HttpComponent implements HttpServerInterface
         $this->contentLength = $this->findRequestContentLength($request->getHeaders());
         $this->messageReceived = (string) $request->getBody();
 
-        $this->responseOnCompleted($connection);
+        if ($this->verifyContentLength()) {
+            $this->handleRequest($connection);
+        }
     }
 
     /**
@@ -61,7 +63,9 @@ abstract class HttpComponent implements HttpServerInterface
     {
         $this->messageReceived .= $message->getContents();
 
-        $this->responseOnCompleted($connection);
+        if ($this->verifyContentLength()) {
+            $this->handleRequest($connection);
+        }
     }
 
     /**
@@ -100,13 +104,11 @@ abstract class HttpComponent implements HttpServerInterface
      *
      * @param \Ratchet\ConnectionInterface $connection
      *
-     * @return void
+     * @return bool
      */
-    protected function responseOnCompleted(ConnectionInterface $connection): void
+    protected function verifyContentLength(ConnectionInterface $connection): bool
     {
-        if (\strlen($this->messageReceived) === $this->contentLength) {
-            $this->responseWith($connection);
-        }
+        return \strlen($this->messageReceived) === $this->contentLength;
     }
 
     /**
@@ -116,7 +118,7 @@ abstract class HttpComponent implements HttpServerInterface
      *
      * @return void
      */
-    protected function responseWith(ConnectionInterface $connection): void
+    protected function handleRequest(ConnectionInterface $connection): void
     {
         $baseRequest = (new ServerRequest(
             $this->request->getMethod(),
@@ -128,10 +130,9 @@ abstract class HttpComponent implements HttpServerInterface
 
         $request = Request::createFromBase((new HttpFoundationFactory())->createRequest($baseRequest));
 
-        $response = $this($request);
+        $response = new ResponseFactory($connection, $request);
 
-        $connection->send(JsonResponse::create($response));
-        $connection->close();
+        $response($this);
     }
 
     /**
@@ -147,4 +148,13 @@ abstract class HttpComponent implements HttpServerInterface
             return strtolower($header) === 'content-length';
         })[0] ?? 0;
     }
+
+    /**
+     * Handle the request.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return
+     */
+    abstract public function __invoke(Request $request);
 }
