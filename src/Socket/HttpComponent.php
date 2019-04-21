@@ -61,7 +61,7 @@ abstract class HttpComponent implements HttpServerInterface
      */
     public function onMessage(ConnectionInterface $connection, $message)
     {
-        $this->messageReceived .= $message->getContents();
+        $this->messageReceived .= (string) $message->getContents();
 
         if ($this->verifyContentLength()) {
             $this->handleRequest($connection);
@@ -102,11 +102,9 @@ abstract class HttpComponent implements HttpServerInterface
     /**
      * Validate whether we have received completed message.
      *
-     * @param \Ratchet\ConnectionInterface $connection
-     *
      * @return bool
      */
-    protected function verifyContentLength(ConnectionInterface $connection): bool
+    protected function verifyContentLength(): bool
     {
         return \strlen($this->messageReceived) === $this->contentLength;
     }
@@ -145,7 +143,7 @@ abstract class HttpComponent implements HttpServerInterface
     protected function findRequestContentLength(array $headers): int
     {
         return Collection::make($headers)->first(function ($values, $header) {
-            return strtolower($header) === 'content-length';
+            return \strtolower($header) === 'content-length';
         })[0] ?? 0;
     }
 
