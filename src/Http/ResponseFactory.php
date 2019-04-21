@@ -11,6 +11,20 @@ use Swarm\Socket\HttpComponent;
 class ResponseFactory
 {
     /**
+     * The connection implementation.
+     *
+     * @var \Ratchet\ConnectionInterface
+     */
+    protected $connection;
+
+    /**
+     * The request.
+     *
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
+
+    /**
      * Construct a response factory.
      *
      * @param \Ratchet\ConnectionInterface $connection
