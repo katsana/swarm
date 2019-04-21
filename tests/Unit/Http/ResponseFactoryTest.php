@@ -21,7 +21,7 @@ class ResponseFactoryTest extends TestCase
         m::close();
     }
 
-    /** @xtest */
+    /** @test */
     public function it_can_dispatch_a_request()
     {
         $connection = m::mock(ConnectionInterface::class);
