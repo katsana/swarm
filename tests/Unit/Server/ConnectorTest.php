@@ -31,7 +31,7 @@ class ConnectorTest extends TestCase
         $logger->shouldReceive('info')->with("Server running at http://{$hostname}\n")->andReturnNull();
 
         $connector = new Connector($hostname, $eventLoop, $logger);
-        $connector->handle($router, ['server' => ['secure' => false]]);
+        $connector->handle($router, ['secure' => false]);
 
         $this->addToAssertionCount(1);
 
@@ -50,7 +50,7 @@ class ConnectorTest extends TestCase
         $logger->shouldReceive('info')->with("Server running at https://{$hostname}\n")->andReturnNull();
 
         $connector = new Connector($hostname, $eventLoop, $logger);
-        $connector->handle($router, ['server' => ['secure' => true]]);
+        $connector->handle($router, ['secure' => true]);
 
         $this->addToAssertionCount(1);
 

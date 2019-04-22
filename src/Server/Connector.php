@@ -56,8 +56,8 @@ class Connector
      */
     public function handle(RatchetRouter $router, array $config): IoServer
     {
-        if (($config['server']['secure'] ?? false) === true) {
-            $socket = $this->bootSecuredServer($config['server']['options'] ?? []);
+        if (($config['secure'] ?? false) === true) {
+            $socket = $this->bootSecuredServer($config['options'] ?? []);
         } else {
             $socket = $this->bootUnsecuredServer();
         }

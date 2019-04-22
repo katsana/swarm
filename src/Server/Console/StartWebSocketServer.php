@@ -48,7 +48,7 @@ class StartWebSocketServer extends Command
 
         $connector = new Connector($hostname, $eventLoop, $logger);
 
-        $server = $connector->handle($router, $config);
+        $server = $connector->handle($router, $config['server']);
 
         $server->run();
     }
