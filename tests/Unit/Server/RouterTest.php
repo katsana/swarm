@@ -126,6 +126,7 @@ class RouterTest extends TestCase
 
 class HttpMessageComponent
 {
+    //
 }
 
 class HttpMessageComponentWithEventLoop extends HttpMessageComponent
