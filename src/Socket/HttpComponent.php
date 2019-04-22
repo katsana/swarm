@@ -12,8 +12,8 @@ use Illuminate\Support\Collection;
 use Psr\Http\Message\RequestInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Http\HttpServerInterface;
+use Swarm\Http\ResponseFactory;
 use Swarm\Server\QueryParameters;
-use Swarm\Server\ResponseFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
