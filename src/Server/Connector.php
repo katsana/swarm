@@ -62,10 +62,6 @@ class Connector
             $socket = $this->bootUnsecuredServer();
         }
 
-        if (\method_exists($router, 'withEventLoop')) {
-            $router->withEventLoop($this->eventLoop);
-        }
-
         $app = new CheckOrigin($router, $config['allowed_origins'] ?? []);
         $http = new HttpServer($app, ($config['max_request_size_in_kb'] ?? 4) * 1024);
 
