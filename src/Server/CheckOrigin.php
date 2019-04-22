@@ -45,19 +45,20 @@ class CheckOrigin implements HttpServerInterface
      */
     public function onOpen(ConnectionInterface $connection, RequestInterface $request = null)
     {
-        if ($request->hasHeader('Origin')) {
-            $this->verifyOrigin($connection, $request);
+        if (! $this->verifyOrigin($connection, $request)) {
+            $this->close($connection, 403);
+            return;
         }
 
-        return $this->component->onOpen($connection, $request);
+        $this->component->onOpen($connection, $request);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function onMessage(ConnectionInterface $from, $msg)
+    public function onMessage(ConnectionInterface $from, $message)
     {
-        return $this->component->onMessage($from, $msg);
+        $this->component->onMessage($from, $message);
     }
 
     /**
@@ -65,15 +66,15 @@ class CheckOrigin implements HttpServerInterface
      */
     public function onClose(ConnectionInterface $connection)
     {
-        return $this->component->onClose($connection);
+        $this->component->onClose($connection);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function onError(ConnectionInterface $connection, Exception $e)
+    public function onError(ConnectionInterface $connection, Exception $exception)
     {
-        return $this->component->onError($connection, $e);
+        $this->component->onError($connection, $exception);
     }
 
     /**
@@ -82,15 +83,22 @@ class CheckOrigin implements HttpServerInterface
      * @param \Ratchet\ConnectionInterface       $connection
      * @param \Psr\Http\Message\RequestInterface $request
      *
-     * @return mixed
+     * @return bool
      */
-    protected function verifyOrigin(ConnectionInterface $connection, RequestInterface $request)
+    protected function verifyOrigin(ConnectionInterface $connection, RequestInterface $request): bool
     {
+        // Skip check if Origin header is not present.
+        if (! $request->hasHeader('Origin')) {
+            return true;
+        }
+
         $header = (string) $request->getHeader('Origin')[0];
         $origin = \parse_url($header, PHP_URL_HOST) ?: $header;
 
         if (! empty($this->allowedOrigins) && ! \in_array($origin, $this->allowedOrigins)) {
-            return $this->close($connection, 403);
+            return false;
         }
+
+        return true;
     }
 }
