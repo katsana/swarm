@@ -3,11 +3,11 @@
 namespace Swarm\Tests\Unit\Server;
 
 use Mockery as m;
-use Swarm\Server\CheckOrigin;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
-use Psr\Http\Message\RequestInterface;
+use Swarm\Server\CheckOrigin;
 
 class CheckOriginTest extends TestCase
 {

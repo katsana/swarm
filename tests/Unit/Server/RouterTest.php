@@ -2,18 +2,18 @@
 
 namespace Swarm\Tests\Unit\Server;
 
+use Illuminate\Contracts\Container\Container as ContainerContract;
 use Mockery as m;
-use Swarm\Server\Logger;
-use Swarm\Server\Router;
 use PHPUnit\Framework\TestCase;
-use Ratchet\WebSocket\WsServer;
 use Ratchet\ConnectionInterface;
-use React\EventLoop\LoopInterface;
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
 use Ratchet\RFC6455\Messaging\MessageInterface;
 use Ratchet\WebSocket\MessageComponentInterface;
-use Illuminate\Contracts\Container\Container as ContainerContract;
+use Ratchet\WebSocket\WsServer;
+use React\EventLoop\LoopInterface;
+use Swarm\Server\Logger;
+use Swarm\Server\Router;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 
 class RouterTest extends TestCase
 {
@@ -126,7 +126,6 @@ class RouterTest extends TestCase
 
 class HttpMessageComponent
 {
-
 }
 
 class HttpMessageComponentWithEventLoop extends HttpMessageComponent

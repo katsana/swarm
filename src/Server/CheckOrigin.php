@@ -47,6 +47,7 @@ class CheckOrigin implements HttpServerInterface
     {
         if (! $this->verifyOrigin($connection, $request)) {
             $this->close($connection, 403);
+
             return;
         }
 

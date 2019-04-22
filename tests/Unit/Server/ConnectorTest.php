@@ -3,11 +3,11 @@
 namespace Swarm\Tests\Unit\Server;
 
 use Mockery as m;
-use Swarm\Server\Logger;
-use Swarm\Server\Connector;
-use React\EventLoop\Factory;
 use PHPUnit\Framework\TestCase;
 use Ratchet\Http\Router;
+use React\EventLoop\Factory;
+use Swarm\Server\Connector;
+use Swarm\Server\Logger;
 
 class ConnectorTest extends TestCase
 {
