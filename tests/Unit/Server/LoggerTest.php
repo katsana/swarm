@@ -164,6 +164,21 @@ class LoggerTest extends TestCase
     }
 
     /** @test */
+    public function it_can_log_error_on_debug()
+    {
+        $console = m::mock(Console::class);
+
+        $console->shouldReceive('error')->once()->with(m::type('String'));
+
+        $logger = new Logger($console);
+        $logger->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
+
+        $logger->onError(new \Exception('Data is invalid'));
+
+        $this->addToAssertionCount(1);
+    }
+
+    /** @test */
     public function it_can_forward_call_to_logger()
     {
         $console = m::mock(Console::class);
