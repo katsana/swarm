@@ -75,7 +75,7 @@ class Connector
      *
      * @return \React\Socket\ServerInterface
      */
-    protected function bootSecuredSocket(array $options): ServerInterface
+    protected function bootSecuredServer(array $options): ServerInterface
     {
         $socket = new SocketServer("tls://{$this->hostname}", $this->eventLoop, $options);
 

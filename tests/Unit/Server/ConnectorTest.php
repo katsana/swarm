@@ -31,7 +31,24 @@ class ConnectorTest extends TestCase
         $logger->shouldReceive('info')->with("Server running at http://{$hostname}\n")->andReturnNull();
 
         $connector = new Connector($hostname, $eventLoop, $logger);
-        $connector->handle($router, ['secure' => false]);
+        $connector->handle($router, ['server' => ['secure' => false]]);
+
+        $this->addToAssertionCount(1);
+    }
+
+    /** @test */
+    public function it_can_create_secured_server()
+    {
+        $eventLoop = Factory::create();
+        $logger = m::mock(Logger::class);
+        $container = m::mock(Container::class);
+        $router = m::mock(Router::class);
+
+        $hostname = '0.0.0.0:8086';
+        $logger->shouldReceive('info')->with("Server running at https://{$hostname}\n")->andReturnNull();
+
+        $connector = new Connector($hostname, $eventLoop, $logger);
+        $connector->handle($router, ['server' => ['secure' => true]]);
 
         $this->addToAssertionCount(1);
     }
