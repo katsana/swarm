@@ -34,6 +34,8 @@ class ConnectorTest extends TestCase
         $connector->handle($router, ['server' => ['secure' => false]]);
 
         $this->addToAssertionCount(1);
+
+        $eventLoop->stop();
     }
 
     /** @test */
@@ -51,5 +53,7 @@ class ConnectorTest extends TestCase
         $connector->handle($router, ['server' => ['secure' => true]]);
 
         $this->addToAssertionCount(1);
+
+        $eventLoop->stop();
     }
 }
