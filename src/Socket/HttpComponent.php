@@ -152,7 +152,7 @@ abstract class HttpComponent implements HttpServerInterface
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return
+     * @return mixed
      */
     abstract public function __invoke(Request $request);
 }
