@@ -137,7 +137,7 @@ class Logger
 
         $message = "Exception `{$exceptionClass}` thrown: `{$exception->getMessage()}`.";
 
-        if ($this->verbosity >= OutputInterface::VERBOSITY_VERY_VERBOSE) {
+        if ($this->verbosity >= OutputInterface::VERBOSITY_VERBOSE) {
             $message .= $exception->getTraceAsString();
         }
 
