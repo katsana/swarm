@@ -94,10 +94,6 @@ class CheckOrigin implements HttpServerInterface
         $header = (string) $request->getHeader('Origin')[0];
         $origin = \parse_url($header, PHP_URL_HOST) ?: $header;
 
-        if (! \in_array($origin, $this->allowedOrigins)) {
-            return false;
-        }
-
-        return true;
+        return \in_array($origin, $this->allowedOrigins);
     }
 }
