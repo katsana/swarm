@@ -87,7 +87,7 @@ class CheckOrigin implements HttpServerInterface
     protected function verifyOrigin(ConnectionInterface $connection, RequestInterface $request): bool
     {
         // Skip check if Origin header is not present.
-        if (! $request->hasHeader('Origin') ||  empty($this->allowedOrigins)) {
+        if (! $request->hasHeader('Origin') || empty($this->allowedOrigins)) {
             return true;
         }
 
