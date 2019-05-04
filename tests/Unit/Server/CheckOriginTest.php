@@ -59,7 +59,7 @@ class CheckOriginTest extends TestCase
     }
 
     /** @test */
-    public function it_can_ignore_origin_if_header_isnt_set()
+    public function it_can_ignore_checks_if_header_isnt_set()
     {
         $component = m::mock(MessageComponentInterface::class);
         $origins = ['0.0.0.0'];
@@ -67,6 +67,25 @@ class CheckOriginTest extends TestCase
         $request = m::mock(RequestInterface::class);
 
         $request->shouldReceive('hasHeader')->once()->with('Origin')->andReturn(false);
+
+        $component->shouldReceive('onOpen')->once()->with($connection, $request);
+
+        $checker = new CheckOrigin($component, $origins);
+        $checker->onOpen($connection, $request);
+
+        $this->addToAssertionCount(1);
+    }
+
+    /** @test */
+    public function it_can_ignore_checks_if_origin_isnt_set()
+    {
+        $component = m::mock(MessageComponentInterface::class);
+        $origins = [];
+        $connection = m::mock(ConnectionInterface::class);
+        $request = m::mock(RequestInterface::class);
+
+        $request->shouldReceive('hasHeader')->once()->with('Origin')->andReturn(true)
+            ->shouldReceive('getHeader')->never()->with('Origin')->andReturn(['127.0.0.1:8080']);
 
         $component->shouldReceive('onOpen')->once()->with($connection, $request);
 
