@@ -68,8 +68,10 @@ class Channel implements Countable
     {
         unset($this->subscribers[$connection->socketId]);
 
-        $connection->channels = \collect($connection->channels)->reject(function ($channel) {
-            return $channel === $this->id();
+        $id = $this->id();
+
+        $connection->channels = \collect($connection->channels)->reject(static function ($channel) use ($id) {
+            return $channel === $id;
         })->values()->all();
     }
 

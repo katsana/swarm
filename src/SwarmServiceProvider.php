@@ -17,11 +17,11 @@ class SwarmServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('swarm.router', function (Application $app) {
+        $this->app->singleton('swarm.router', static function (Application $app) {
             return new Server\Router($app, new RouteCollection());
         });
 
-        $this->app->singleton('swarm.logger', function (Application $app) {
+        $this->app->singleton('swarm.logger', static function (Application $app) {
             return new Logger($app->make(ConsoleLogger::class));
         });
     }

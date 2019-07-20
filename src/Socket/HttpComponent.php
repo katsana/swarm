@@ -142,7 +142,7 @@ abstract class HttpComponent implements HttpServerInterface
      */
     protected function findRequestContentLength(array $headers): int
     {
-        return Collection::make($headers)->first(function ($values, $header) {
+        return Collection::make($headers)->first(static function ($values, $header) {
             return \strtolower($header) === 'content-length';
         })[0] ?? 0;
     }
