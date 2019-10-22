@@ -47,7 +47,7 @@
         "illuminate/http": "^5.8 || ^6.0",
         "illuminate/routing": "^5.8 || ^6.0",
         "illuminate/support": "^5.8 || ^6.0",
-        "laravie/stream": "^0.2",
+        "laravie/stream": "^1.0",
         "symfony/http-kernel": "^4.0",
         "symfony/psr-http-message-bridge": "^1.1"
     },
