@@ -28,7 +28,7 @@ class StartWebSocketServer extends Command
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return int
      */
     public function handle()
     {
@@ -51,5 +51,7 @@ class StartWebSocketServer extends Command
         $server = $connector->handle($router, $config['server']);
 
         $server->run();
+
+        exit 0;
     }
 }
