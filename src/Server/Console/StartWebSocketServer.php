@@ -52,6 +52,6 @@ class StartWebSocketServer extends Command
 
         $server->run();
 
-        exit 0;
+        return 0;
     }
 }
